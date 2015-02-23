@@ -1,0 +1,121 @@
+{% extends "_templates/base.twig" %} {% block contenido %}
+
+<div class="col-md-12">
+
+	<div class="row">
+		{% if form.error|length %}
+
+		<div class="alert alert-danger" role="alert">{{ form.error|raw }}</div>
+
+		{% endif %}
+
+		<h2>Contenido del Carrito de la Compra</h2>
+		<hr />
+
+		<table class="table table-bordered">
+			<tr>
+				<th>Código</th>
+				<th>Concepto</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>Total</th>
+				<th>Opciones</th>
+			</tr>
+
+			{% for key,producto in carrito.items %}
+			<tr>
+				<form id="formActualiza" action="operacion">
+
+					<input type="hidden" name="idProducto" value="{{ key }}" />
+					<td>{{ key }}</td>
+					<td>{{ producto.nombre }}</td>
+					<td>{{ producto.precio }}€</td>
+					<td><input type="text" name="cantidad"
+						value="{{ producto.cantidad }}" /></td>
+					<td>{{ producto.precio * producto.cantidad}}€</td>
+					<td>
+						<button type="submit" name="actualizar" class="btn btn-default">Actualizar</button>
+						<a class="btn btn-default"
+						href="{{ base_url() }}carro/eliminaItem/{{ key }}">Eliminar</a>
+					</td>
+				</form>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td></td>
+				<td>Total</td>
+				<td></td>
+				<td>{{ carrito.articulos_total }}</td>
+				<td>{{ carrito.precio_total }}€</td>
+			</tr>
+		</table>
+		<p>
+			<a href="{{ base_url() }}carro/vaciaCarro" class="btn btn-default">Vaciar
+				Carrito</a> <a href="{{ base_url() }}pedido/preparaPedido"
+				class="btn btn-primary">Realizar pedido</a>
+		</p>
+	</div>
+</div>
+
+
+{% endblock %}{% block script %}
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(){    
+
+		$( "#formActualiza" ).submit(function( event ) {
+			 event.preventDefault();
+			 var cantidad = $("[name='cantidad']").val();
+			 var idProducto;
+			// filtramos valor
+			if ($.isNumeric(cantidad) && cantidad > 0){
+
+				idProducto = $("[name='idProducto']").val();
+				 
+				$.get("{{ base_url() }}carro/ajaxUpdateCart/"+cantidad+"/"+idProducto+"","",function(data)
+				{
+				    var json = JSON.parse(data);
+				    console.log(json);
+				   
+			    	var html = "";
+			    	var articulos_total = json.articulos_total;
+			    	var precio_total = json.precio_total;	
+				    	
+
+			    	$.each(json.items, function(key, value) {
+			    	    console.log(key,value);
+			    	    html += "<tr><td></td><td>"+value.nombre+"</td><td>"+value.precio+" € x " +value.cantidad+ "</td></tr>";			    	   		    		 			  	    
+			    	});			    	
+			    	$('#cesta').html('<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>'+ 
+							 ' Cesta '+articulos_total+'<span class="caret"></span> </a>');
+					$('#table_cart').html(html);	    			 
+				});
+			}
+			else
+			{
+			    // mostrar error 			    
+			    $('#formAdd').addClass('has-error');
+			    $('#errorCantidad').text('Introduce un valor correcto');
+			}		
+			 
+		});		
+
+		/*$('#cantidad').click(function(){
+			 if ($('#formAdd').hasClass('form-group has-error')){		    	
+		    	 $('#formAdd').removeClass('form-group has-error').addClass('form-group');
+		    	 $('#errorCantidad').text('');
+			}
+		});	*/
+		
+	});
+
+
+
+</script>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,92 @@
+{% extends "_templates/base.twig" %} {% block contenido %}
+
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-sm-7 col-lg-7 col-md-7">
+			<h2>Contenido del carro</h2>
+			<hr />
+			<table class="table table-hover">
+				<tr>
+					<th>Código</th>
+					<th>Concepto</th>
+					<th>Precio</th>
+					<th>Unidades</th>
+					<th>Total</th>
+				</tr>
+
+				{% for producto in carrito.items %}
+				<tr>
+					<td>1</td>
+					<td>{{ producto.nombre }}</td>
+					<td>{{ producto.precio }}€</td>
+					<td>{{ producto.cantidad }}</td>
+					<td>{{ producto.precio * producto.cantidad}}€</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+		<div class="col-sm-5 col-lg-5 col-md-5">
+			<div class="row">
+				<div class="col-md-12 well">
+					<h3>Datos Facturación</h3>
+					<hr />
+					<p>
+						<strong>{{ form.usuario.nombre|capitalize }} {{
+							form.usuario.apellidos|capitalize }} ({{ form.usuario.dni }})</strong>
+					</p>
+					<p>{{ form.usuario.direccion }}</p>
+					<p>{{ form.usuario.cp }}</p>
+					<p>{{ form.usuario.email }}</p>
+				</div>
+				<div class="col-md-12 well">
+					<h3>Datos Envío</h3>
+					<hr />
+					<p>
+						<strong>{{ form.pedido.nombre|capitalize }} {{
+							form.pedido.apellidos|capitalize }} ({{ form.pedido.dni }})</strong>
+					</p>
+					<p>{{ form.pedido.direccion }}</p>
+					<p>{{ form.pedido.cp }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			{{ form.form_confirmaPedido|raw }}
+			<div class="form-group">
+				<label for="cp" class="col-sm-2 control-label">Condiciones legales</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="5" id="descripcion">a rellenar</textarea>
+					<span>{{ form.descripcion|raw }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label> <input type="checkbox" name="condicion" id="condicion"> He leído y
+							entiendo las condiciones de compra.
+						</label>
+						<span>{{ form.condicion|raw }}</span>
+					</div>
+					
+				</div>
+			</div>
+			<hr />
+
+			<button class="btn btn-primary pull-right" type="submit">Confirmar</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+

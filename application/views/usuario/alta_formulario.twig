@@ -1,0 +1,122 @@
+{% extends "_templates/base.twig" %} {% block contenido %}
+
+
+<div class="col-md-12">
+	{% if form.error|length %}
+	   <div class="alert alert-danger" role="alert">{{ form.error|raw }}</div>
+	{% endif %}
+	<div class="col-md-5">
+
+		<h3>{{ form.id|length ? "Editando Usuario" ? "Nuevo Usuario" }}</h3>
+		<hr />
+		{{ form.form_alta|raw }}
+		<div
+			class="form-group {% if form.username|length -%} has-error {%- endif -%}">
+
+			<label for="username" class="col-sm-2 control-label">Username</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="username"
+					name="username" value="{{ set_value('username') }}"> <span>{{
+					form.username|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.email|length -%} has-error {%- endif -%}">
+			<label for="email" class="col-sm-2 co ntrol-label">Email</label>
+			<div class="col-sm-10">
+				<input type="email" class="form-control" id="email" name="email"
+					value="{{ set_value('email') }}"> <span>{{ form.email|raw }}</span>
+			</div>
+
+		</div>
+
+		<div
+			class="form-group {% if form.password|length -%} has-error {%- endif -%}">
+			<label for="password" class="col-sm-2 control-label">Password</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="Password"> <span>{{ form.password|raw
+					}}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.passconf|length -%} has-error {%- endif -%}">
+			<label for="passconf" class="col-sm-2 control-label">Confirmar
+				Password</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" name="passconf"
+					id="passconf" placeholder="Password"> <span>{{ form.passconf|raw }}</span>
+			</div>
+		</div>
+
+		<hr />
+		<div
+			class="form-group {% if form.nombre|length -%} has-error {%- endif -%}">
+			<label for="nombre" class="col-sm-2 control-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="nombre" id="nombre"
+					value="{{ set_value('nombre') }}"> <span>{{ form.nombre|raw }}</span>
+			</div>
+		</div>
+		<div
+			class="form-group {% if form.apellidos|length -%} has-error {%- endif -%}">
+			<label for="apellidos" class="col-sm-2 control-label">Apellidos</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="apellidos"
+					id="apellidos" value="{{ set_value('apellidos') }}"> <span>{{
+					form.apellidos|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.dni|length -%} has-error {%- endif -%}">
+			<label for="dni" class="col-sm-2 control-label">DNI</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="dni" id="dni"
+					value="{{ set_value('dni') }}"> <span>{{ form.dni|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.direccion|length -%} has-error {%- endif -%}">
+			<label for="direccion" class="col-sm-2 control-label">Dirección</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="direccion"
+					id="direccion" value="{{ set_value('direccion') }}">
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<label for="provincia" class="col-sm-2 control-label">Provincia</label>
+			<div class="col-sm-10">
+				<select class="form-control" name="provincia" id="provincia"> {% for
+					provincia in provincias %}
+					<option value="{{ provincia.idProvincia }}">{{ provincia.provincia }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.cp|length -%} has-error {%- endif -%}">
+			<label for="cp" class="col-sm-2 control-label">Código Postal</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="cp" id="cp"
+					value="{{ set_value('cp') }}"> <span>{{ form.cp|raw }}</span>
+			</div>
+		</div>
+
+		<input type="hidden" value="{{ form.token }}" name="token" /> {% if
+		form.id|length %} <input type="hidden" value="{{ form.id }}" name="id" />
+		{% endif %}
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary">Enviar</button>
+			</div>
+		</div>
+		</form>
+	</div>
+	{% endblock %}

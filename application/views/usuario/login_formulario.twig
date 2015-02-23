@@ -1,0 +1,50 @@
+{% extends "_templates/base.twig" %} {% block contenido %}
+
+
+<div class="row">
+	{% if form.error|length %}
+
+	<div class="alert alert-danger" role="alert">{{ form.error|raw }}</div>
+
+	{% endif %}
+
+	<div class="col-md-5">
+		<h3>Acceso usuario</h3>
+		<hr />
+		{{ form.form_login|raw }}
+		<div class="form-group">
+			<label for="usernameLogin" class="col-sm-2 control-label">Username</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="usernameLogin"
+					name="usernameLogin" placeholder="">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="passwordLogin" class="col-sm-2 control-label">Password</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" name="passwordLogin"
+					id="passwordLogin" placeholder="">
+			</div>
+		</div>
+
+		<input type="hidden" value="{{ form.token }}" name="tokenLogin" /> 
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary">Acceder</button>
+				<a href="{{ base_url() }}usuario/restablecePassword" class="pull-right">Recuperar contraseña</a>
+				<p>
+				<a href="{{ base_url() }}usuario/creaUsuario" class="pull-right">Registrar cuenta</a>
+				</p>
+			</div>
+		</div>
+		</form>
+	</div>
+	
+	 
+	 
+	 </div>
+</div>
+
+{% endblock %}

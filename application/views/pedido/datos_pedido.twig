@@ -1,0 +1,178 @@
+{% extends "_templates/base.twig" %} {% block contenido %}
+
+<div class="col-md-12">
+	<div class="row">
+		<h1>
+			<small>Contenido del carrito</small>
+		</h1>
+		<hr />
+		<table class="table table-bordered">
+			<tr>
+				<th>Código</th>
+				<th>Concepto</th>
+				<th>Precio</th>
+				<th>Unidades</th>
+				<th>Total</th>
+			</tr>
+
+			{% for producto in carrito.items %}
+			<tr>
+				<td>1</td>
+				<td>{{ producto.nombre }}</td>
+				<td>{{ producto.precio }}€</td>
+				<td>{{ producto.cantidad }}</td>
+				<td>{{ producto.precio * producto.cantidad}}€</td>
+
+			</tr>
+			{% endfor %}
+			<tr>
+				<td></td>
+				<td>Total</td>
+				<td></td>
+				<td>{{ carrito.articulos_total }}</td>
+				<td>{{ carrito.precio_total }}€</td>
+			</tr>
+		</table>
+
+		<h1>
+			<small>Datos de envío</small>
+		</h1>
+		<hr />
+		{{ form.form_direccion|raw }}
+		<div
+			class="form-group {% if form.nombre|length -%} has-error {%- endif -%}">
+			<label for="nombre" class="col-sm-2 control-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="nombre" id="nombre"
+					value="{{ set_value('nombre') }}"> <span>{{ form.nombre|raw }}</span>
+			</div>
+		</div>
+		<div
+			class="form-group {% if form.apellidos|length -%} has-error {%- endif -%}">
+			<label for="apellidos" class="col-sm-2 control-label">Apellidos</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="apellidos"
+					id="apellidos" value="{{ set_value('apellidos') }}"> <span>{{
+					form.apellidos|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.dni|length -%} has-error {%- endif -%}">
+			<label for="dni" class="col-sm-2 control-label">DNI</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="dni" id="dni"
+					value="{{ set_value('dni') }}"> <span>{{ form.dni|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.direccion|length -%} has-error {%- endif -%}">
+			<label for="direccion" class="col-sm-2 control-label">Dirección</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="direccion"
+					id="direccion" value="{{ set_value('direccion') }}">
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<label for="provincia" class="col-sm-2 control-label">Provincia</label>
+			<div class="col-sm-10">
+				<select class="form-control" name="provincia" id="provincia"> {% for
+					provincia in provincias %}
+					<option value="{{ provincia.idProvincia }}">{{ provincia.nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.cp|length -%} has-error {%- endif -%}">
+			<label for="cp" class="col-sm-2 control-label">Código Postal</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" name="cp" id="cp"
+					value="{{ set_value('cp') }}"> <span>{{ form.cp|raw }}</span>
+			</div>
+		</div>
+
+		<div
+			class="form-group {% if form.descripcion|length -%} has-error {%- endif -%}">
+			<label for="cp" class="col-sm-2 control-label">Descripción</label>
+			<div class="col-sm-10">
+				<textarea class="form-control" rows="5" id="descripcion"
+					value="{{ set_value('descripcion') }}"></textarea>
+				<span>{{ form.descripcion|raw }}</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<div class="checkbox">
+					<label> <input type="checkbox" id="copiaDatos"> Copiar datos
+						usuario
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<input type="hidden" value="{{ form.usuario.idUsuario }}" name="id" />
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary">Enviar</button>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="row"></div>
+</div>
+
+
+{% endblock %}{% block script %}
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		$('#copiaDatos').click(function(){	
+			 if($(this).is(":checked")){
+				    $('#nombre').val('{{ form.usuario.nombre }}');
+					$('#apellidos').val('{{ form.usuario.apellidos }}');	
+					$('#dni').val('{{ form.usuario.dni }}');	
+					$('#direccion').val('{{ form.usuario.direccion }}');		
+					$('#cp').val('{{ form.usuario.cp }}');	
+					$('#provincia').val('{{ form.usuario.idProvincia }}');		
+	            }
+	            else if($(this).is(":not(:checked)")){
+	            	$('#nombre').val('');
+					$('#apellidos').val('');
+					$('#dni').val('');
+					$('#direccion').val('');
+					$('#cp').val('');
+					$('#provincia').val('1');
+	            }	
+				
+				
+		});
+			
+
+		$('#cantidad').click(function(){
+			 if ($('#formAdd').hasClass('form-group has-error')){		    	
+		    	 $('#formAdd').removeClass('form-group has-error').addClass('form-group');
+		    	 $('#errorCantidad').text('');
+			}
+		});	
+		
+	});
+
+
+
+</script>
+{% endblock %}
+
+
+
+
+
+
