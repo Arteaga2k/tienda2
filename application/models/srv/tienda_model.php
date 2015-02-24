@@ -29,9 +29,19 @@ class Tienda_model extends CI_Model
 
     public function lista($offset, $limit)
     {
-        $this->db->where('revisado', 1);
-        $lista = $this->db->get('producto', $limit, $offset);
+        $lista = array();
         
-        return $lista->result_array();
+        $this->db->where('revisado', 1);
+        $query = $this->db->get('producto', $limit, $offset);
+        $listaProductos = $query->result_array();
+        
+        foreach ($listaProductos as $key => $item) {
+            $lista[$key]['nombre'] = $item['nombre'];
+            $lista[$key]['img'] = $item['imagen'];
+            $lista[$key]['descripcion'] = $item['descripcion'];
+            $lista[$key]['precio'] = $item['precio'];
+            $lista[$key]['url'] = base_url() . 'index.php/home/producto/' . $item['idProducto'] . '';
+        }
+        return $lista;
     }
 }
